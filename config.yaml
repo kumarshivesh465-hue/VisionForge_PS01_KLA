@@ -1,0 +1,64 @@
+# SemiCon AI Hackathon - Image Restoration Config
+data:
+  train_gt_dir: "C:/Users/SHIVESH KUMAR/Desktop/problem/train/train/GT"
+  train_lr_dir: "C:/Users/SHIVESH KUMAR/Desktop/problem/train/train/NoisyLR"
+  test_lr_dir: "C:/Users/SHIVESH KUMAR/Desktop/problem/Test_NoisyLR/NoisyLR"
+  val_split: 0.1
+  num_workers: 4
+  pin_memory: true
+
+model:
+  name: "swinir_lite"
+  scale: 2
+  in_chans: 1
+  out_chans: 1
+  embed_dim: 60
+  depths: [6, 6, 6, 6]
+  num_heads: [6, 6, 6, 6]
+  window_size: 8
+  mlp_ratio: 2.0
+  upsampler: "pixelshuffle"
+  img_range: 1.0
+
+training:
+  batch_size: 16
+  epochs: 100
+  lr: 2.0e-4
+  min_lr: 1.0e-6
+  weight_decay: 1.0e-4
+  grad_clip: 1.0
+  mixed_precision: true
+  seed: 42
+
+loss:
+  l1_weight: 1.0
+  perceptual_weight: 0.0
+  frequency_weight: 0.05
+  gan_weight: 0.0
+
+augmentation:
+  # Noise simulation for additional augmentation (beyond existing degradations)
+  gaussian_noise_prob: 0.3
+  gaussian_noise_std: 0.05
+  speckle_noise_prob: 0.3
+  speckle_noise_strength: 0.1
+  # Geometric
+  hflip_prob: 0.5
+  vflip_prob: 0.5
+  rot90_prob: 0.5
+  # Photometric (applied to GT only, LR already degraded)
+  brightness_prob: 0.2
+  brightness_factor: 0.1
+  contrast_prob: 0.2
+  contrast_factor: 0.1
+
+evaluation:
+  metrics: ["psnr", "ssim", "lpips"]
+  lpips_net: "alex"
+
+paths:
+  checkpoint_dir: "C:/Users/SHIVESH KUMAR/Desktop/problem/solution/weights"
+  output_dir: "C:/Users/SHIVESH KUMAR/Desktop/problem/solution/outputs/test_restored"
+  log_dir: "C:/Users/SHIVESH KUMAR/Desktop/problem/solution/logs"
+  best_model_name: "best_swinir_lite.pth"
+  last_model_name: "last_swinir_lite.pth"
