@@ -275,7 +275,7 @@ All augmentation and architectural choices justified in `citations/references.md
 ## Contact
 
 **Team VisionForge**  
-Shivesh Kumar — shivesh.kumar@vitstudent.ac.in  
+Shivesh Kumar   
 VIT Chennai, Tamil Nadu, India
 
 ---
